@@ -1,0 +1,101 @@
+import sys, UI
+from PyQt5.QtWidgets import *
+from PyQt5 import uic
+from PyQt5.QtCore import *
+# form_class = uic.loadUiType("MainWindow.ui")[0]
+from modules.UI import Ui_MainWindow
+
+
+class MyWindow(QMainWindow, Ui_MainWindow):
+    def __init__(self):
+        QMainWindow.__init__(self, None, Qt.WindowStaysOnTopHint)
+        self.setUI()
+
+        # self.textEdit.setText("안녕하세요")
+        # print(self.textEdit.toPlainText())
+
+    def setUI(self):
+        self.setupUi(self)
+        # 여러 버튼에 같은 메서드 걸기
+        self.num_pushButton_1.clicked.connect(lambda state, button = self.num_pushButton_1 : self.NumClicked(state, button))
+        self.num_pushButton_2.clicked.connect(lambda state, button = self.num_pushButton_2 : self.NumClicked(state, button))
+        self.num_pushButton_3.clicked.connect(lambda state, button = self.num_pushButton_3 : self.NumClicked(state, button))
+        self.num_pushButton_4.clicked.connect(lambda state, button = self.num_pushButton_4 : self.NumClicked(state, button))
+        self.num_pushButton_5.clicked.connect(lambda state, button = self.num_pushButton_5 : self.NumClicked(state, button))
+        self.num_pushButton_6.clicked.connect(lambda state, button = self.num_pushButton_6 : self.NumClicked(state, button))
+        self.num_pushButton_7.clicked.connect(lambda state, button = self.num_pushButton_7 : self.NumClicked(state, button))
+        self.num_pushButton_8.clicked.connect(lambda state, button = self.num_pushButton_8 : self.NumClicked(state, button))
+        self.num_pushButton_9.clicked.connect(lambda state, button = self.num_pushButton_9 : self.NumClicked(state, button))
+        self.num_pushButton_10.clicked.connect(lambda state, button = self.num_pushButton_10 : self.NumClicked(state, button))
+
+        self.sign_pushButton_1.clicked.connect(lambda state, button = self.sign_pushButton_1 : self.NumClicked(state, button))
+        self.sign_pushButton_2.clicked.connect(lambda state, button = self.sign_pushButton_2 : self.NumClicked(state, button))
+        self.sign_pushButton_3.clicked.connect(lambda state, button = self.sign_pushButton_3 : self.NumClicked(state, button))
+        self.sign_pushButton_4.clicked.connect(lambda state, button = self.sign_pushButton_4 : self.NumClicked(state, button))
+
+        self.p_open_pushButton.clicked.connect(lambda state, button = self.p_open_pushButton : self.NumClicked(state, button))
+        self.p_close_pushButton.clicked.connect(lambda state, button = self.p_close_pushButton : self.NumClicked(state, button))
+        self.dot_pushButton.clicked.connect(lambda state, button = self.dot_pushButton : self.NumClicked(state, button))
+        self.per_pushButton.clicked.connect(lambda state, button = self.per_pushButton : self.NumClicked(state, button))
+
+        self.result_pushButton.clicked.connect(self.MakeResult)
+        self.reset_pushButton.clicked.connect(self.Reset)
+        self.del_pushButton.clicked.connect(self.Delete)
+
+        self.del_pushButton.setStyleSheet(
+            '''
+            QPushButton:hover{image:url(C:/shinhoo/Delete.png); border:0px}
+            QPushButton{image:url(C:/shinhoo/button.png); border:0px}
+            ''')
+
+
+    def NumClicked(self, state, button):
+        # print(self.textEdit.toPlainText())
+        try:
+            if button == self.per_pushButton:
+                now_num_text = "*0.01"
+            else:
+                now_num_text = button.text()
+        except Exception as e:
+            print(e)
+
+        exist_line_text = self.textEdit.toPlainText()
+        # now_num_text = button.text()
+        self.textEdit.setText(exist_line_text + now_num_text)
+
+    def MakeResult(self):
+        try:
+            result = eval(self.textEdit.toPlainText())
+            self.textEdit_2.setText(str(result)) ## set text 안에는 문자열만 들어감.
+        except Exception as e:
+            print(e)
+
+    def Reset(self):
+        self.textEdit.clear()
+        self.textEdit_2.setText("0")
+
+    def Delete(self):
+        try:
+            exist_line_text = self.textEdit.toPlainText()
+            exist_line_text = exist_line_text[:-1]
+            self.textEdit.setText(exist_line_text)
+        except Exception as e:
+            print(e)
+
+    # def NumClick2(self):
+    #     # print(self.textEdit.toPlainText())
+    #     exist_line_text = self.textEdit.toPlainText()
+    #     now_num_text = self.num_pushButton_2.text()
+    #     self.textEdit.setText(exist_line_text + now_num_text)
+
+if __name__ == "__main__":
+    print("hellow world")
+    app = QApplication(sys.argv)
+    myapp = MyWindow()
+    myapp.show()
+    app.exec_()
+
+# app = QApplication(sys.argv)
+# mainDialog = QDialog()
+# mainDialog.show()
+# app.exec_()
